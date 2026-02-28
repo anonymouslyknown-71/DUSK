@@ -153,18 +153,42 @@
     </div>
   </aside>
 
-  <!-- EmailJS SDK -->
-  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
-  <script>
-    // ---------- CONFIG ----------
-    // Replace these with your EmailJS details after creating an account at https://www.emailjs.com/
-   const EMAILJS_USER_ID = 'L_F68QFk8bKdcc1-O';
-const EMAILJS_SERVICE_ID = 'service_mm2ddz2';
-const EMAILJS_TEMPLATE_ID = 'template_6f8jkdc';
-const OWNER_EMAIL = 'anshpatil71work@gmail.com';
-    if(window.emailjs){
-      emailjs.init(EMAILJS_USER_ID);
+<!-- ===== EmailJS SDK & init (robust) ===== -->
+<!-- use 'latest' CDN path (more reliable) -->
+<script type="text/javascript" src="https://cdn.emailjs.com/sdk/latest/email.min.js"></script>
+<script>
+  // ---------- CONFIG: replace with your values (already provided) ----------
+  const EMAILJS_USER_ID    = 'L_F68QFk8bKdcc1-O';
+  const EMAILJS_SERVICE_ID = 'service_mm2ddz2';
+  const EMAILJS_TEMPLATE_ID= 'template_6f8jkdc';
+  const OWNER_EMAIL        = 'anshpatil71work@gmail.com';
+
+  // Try immediate init if SDK loaded, otherwise poll until available
+  function initEmailJSOnce() {
+    try {
+      if(window.emailjs && typeof emailjs.init === 'function') {
+        emailjs.init(EMAILJS_USER_ID);
+        console.log('EmailJS initialized');
+        return true;
+      }
+    } catch(e){
+      console.warn('EmailJS init error', e);
     }
+    return false;
+  }
+
+  if(!initEmailJSOnce()){
+    // Poll for SDK up to ~5 seconds
+    const wait = setInterval(()=>{
+      if(initEmailJSOnce()){
+        clearInterval(wait);
+      }
+    }, 200);
+    // Safety stop
+    setTimeout(()=> clearInterval(wait), 5000);
+  }
+</script>
+<!-- ===== end EmailJS init ===== -->
 
     // ---------- PRODUCTS ----------
     const products = [
