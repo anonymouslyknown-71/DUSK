@@ -333,19 +333,20 @@
         return;
       }
 
-      try{
-        const resp = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-        showToast('Order sent — owner will contact you soon.');
-        // close drawer
-        cart = [];
-        updateCartUI();
-        document.getElementById('custName').value='';
-        document.getElementById('custPhone').value='';
-        cartDrawer.classList.remove('open');
-      } catch(err){
-        console.error(err);
-        alert('Could not send order. Check EmailJS configuration and internet connection.');
-      }
+     try {
+  console.log('[DUSK] Sending order to EmailJS...', templateParams);
+  const resp = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+  console.log('[DUSK] EmailJS response:', resp);
+  showToast('Order sent — owner will contact you soon.');
+  // reset cart...
+  cart = []; updateCartUI();
+  document.getElementById('custName').value='';
+  document.getElementById('custPhone').value='';
+  cartDrawer.classList.remove('open');
+} catch (err) {
+  console.error('[DUSK] EmailJS send error:', err);
+  alert('Could not send order. See console for details.');
+}
     });
 
     // small helpers
