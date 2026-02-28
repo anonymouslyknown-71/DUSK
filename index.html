@@ -6,6 +6,7 @@
   <title>Dusk — Online Bar</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <meta name="description" content="Dusk — Premium online bar. Shop limited bottles & send orders via EmailJS." />
+
   <style>
     :root{
       --bg:#07060a;
@@ -15,193 +16,110 @@
       --glass: rgba(255,255,255,0.03);
       --radius:14px;
       --max-width:1100px;
-      color: #ececec;
-      font-family: Inter, system-ui, -apple-system, Roboto, 'Segoe UI', 'Helvetica Neue', Arial;
+      color:#ececec;
+      font-family: Inter, system-ui, -apple-system, Roboto, 'Segoe UI', Arial;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,#040406 0%, #0b0b0f 100%);}
+    html,body{margin:0;height:100%;background:linear-gradient(180deg,#040406 0%, #0b0b0f 100%);}    
     .container{max-width:var(--max-width);margin:0 auto;padding:20px;}
 
-    /* HERO */
     .hero{width:100%;min-height:60vh;display:flex;align-items:center;justify-content:center;position:relative;border-radius:12px;overflow:hidden;margin-bottom:18px}
     .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(3,3,3,0.25), rgba(3,3,3,0.6));}
-    .hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:contrast(1.02) saturate(.95);}
+    .hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;}
     .hero .content{position:relative;z-index:2;text-align:center;padding:40px}
-    .hero h1{font-size:clamp(28px,6vw,56px);margin:0 0 10px 0;letter-spacing:0.6px;font-weight:800}
-    .hero p{margin:0 0 18px;color:var(--muted)}
+    .hero h1{font-size:clamp(28px,6vw,56px);margin:0 0 10px;font-weight:800}
+    .hero p{color:var(--muted)}
     .btn{display:inline-block;padding:12px 20px;border-radius:10px;background:var(--accent);color:#120d05;font-weight:700;text-decoration:none;cursor:pointer}
 
-    /* PRODUCTS */
     section#products{margin:12px 0 96px}
     .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .section-head h2{margin:0;font-size:18px}
     .carousel{display:flex;gap:14px;overflow-x:auto;padding:12px 8px;scroll-behavior:smooth}
-    .carousel::-webkit-scrollbar{height:8px}
-    .carousel::-webkit-scrollbar-thumb{background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));border-radius:20px}
     .product{min-width:220px;background:var(--glass);border-radius:12px;padding:12px;flex:0 0 auto}
     .product img{width:100%;height:170px;object-fit:cover;border-radius:10px}
     .p-name{font-weight:600;font-size:14px;margin:8px 0 4px}
-    .p-price{color:var(--muted);font-weight:600;margin-bottom:8px}
-    .product .add{width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit;cursor:pointer}
+    .p-price{color:var(--muted);margin-bottom:8px}
+    .product .add{width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.1);color:inherit;cursor:pointer}
 
-    /* floating cart */
     .floating-row{position:fixed;right:18px;bottom:18px;z-index:9999;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
-    .fab{width:56px;height:56px;border-radius:50%;background:linear-gradient(180deg,var(--accent),#b8842f);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,0.6);cursor:pointer;border:none}
-    .fab svg{width:22px;height:22px}
-    .badge{position:relative;background:transparent;color:#000;font-weight:800;margin-left:-12px;margin-top:-46px;background:white;padding:6px 8px;border-radius:20px;font-size:13px}
+    .fab{width:56px;height:56px;border-radius:50%;background:linear-gradient(180deg,var(--accent),#b8842f);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+    .badge{position:relative;color:#000;font-weight:800;margin-left:-12px;margin-top:-46px;background:white;padding:6px 8px;border-radius:20px;font-size:13px}
 
-    /* cart drawer */
-    .cart-drawer{position:fixed;right:0;top:0;height:100%;width:360px;max-width:95vw;background:linear-gradient(180deg,#0b0b0f, #0e0d12);box-shadow:-40px 0 70px rgba(0,0,0,0.6);transform:translateX(110%);transition:transform .28s ease;padding:20px;z-index:9998}
+    .cart-drawer{position:fixed;right:0;top:0;height:100%;width:360px;max-width:95vw;background:#0e0d12;transform:translateX(110%);transition:.3s;padding:20px;z-index:9998}
     .cart-drawer.open{transform:translateX(0)}
-    .cart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-    .cart-items{max-height:55vh;overflow:auto;padding-right:8px}
-    .cart-item{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .cart-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
     .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:8px}
-    .cart-item .meta{flex:1}
-    .cart-item .meta .name{font-weight:700}
-    .cart-item .meta .qty{color:var(--muted);font-size:13px}
-    .cart-item .remove{background:transparent;border:none;color:var(--muted);cursor:pointer}
-    .tot{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid rgba(255,255,255,0.03);margin-top:8px}
-
-    /* order form */
-    .order-form input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;margin-bottom:8px}
+    .order-form input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:inherit;margin-bottom:8px}
     .order-form .send{width:100%;padding:12px;border-radius:10px;background:var(--accent);border:none;color:#120d05;font-weight:800;cursor:pointer}
-
-    /* whatsapp */
-    .whatsapp{position:fixed;left:18px;bottom:18px;z-index:9999}
-    .whatsapp a{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:#25d366;color:#042;box-shadow:0 8px 20px rgba(0,0,0,0.6);text-decoration:none}
-
-    @media(min-width:900px){
-      .container{padding:36px}
-      .hero{min-height:72vh}
-      .hero .content{text-align:left;max-width:720px;padding-left:60px}
-    }
-
-    /* small helper */
-    .muted{color:var(--muted);font-size:13px}
   </style>
 </head>
+
 <body>
   <div class="container">
-    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,#111, #1b1b1f);display:flex;align-items:center;justify-content:center;font-weight:800">D</div>
-        <div>
-          <div style="font-weight:800">Dusk</div>
-          <div class="muted" style="font-size:12px">Timeless Elegance — For those who don’t just drink—they savor.</div>
-        </div>
-      </div>
-      <nav class="muted">Contact: <a href="mailto:anshpatil71work@gmail.com" style="color:inherit;text-decoration:underline">anshpatil71work@gmail.com</a></nav>
+    <header style="display:flex;justify-content:space-between;margin-bottom:14px">
+      <div><strong>Dusk</strong><br><small style="color:#aaa">Luxury in Every Drop</small></div>
+      <div><a href="mailto:anshpatil71work@gmail.com" style="color:#aaa">Contact</a></div>
     </header>
 
-    <!-- HERO -->
-    <section class="hero" aria-label="Hero">
-      <div class="bg" style="background-image: url('https://i.ibb.co/twg1rVFj/Heroimage.webp')"></div>
+    <section class="hero">
+      <div class="bg" style="background-image:url('https://i.ibb.co/twg1rVFj/Heroimage.webp')"></div>
       <div class="content">
         <h1>DUSK — Premium Essence</h1>
-        <p class="muted">Luxury in every drop. Curated bottles for the discerning palate.</p>
+        <p>Curated bottles for the discerning palate.</p>
         <a class="btn" id="shopNow">Shop Now</a>
       </div>
     </section>
 
-    <!-- PRODUCTS -->
     <section id="products">
       <div class="section-head">
         <h2>Premium Selections</h2>
-        <div class="muted">Curated, limited & iconic</div>
       </div>
-      <div class="carousel" id="carousel" aria-label="product carousel">
-        <!-- product cards rendered by JS -->
-      </div>
+      <div class="carousel" id="carousel"></div>
     </section>
 
-    <footer style="padding:20px 0;color:var(--muted);text-align:center">© <strong>Dusk</strong> — The Art of Distinction</footer>
+    <footer style="text-align:center;color:#888">© Dusk — The Art of Distinction</footer>
   </div>
 
-  <!-- floating whatsapp -->
-  <div class="whatsapp">
-    <a href="https://wa.me/+917908243524" target="_blank" aria-label="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M20.52 3.48A11.94 11.94 0 0012.01 0C5.37 0 .02 5.36.02 12.01c0 2.12.57 4.19 1.66 6.01L0 24l6.13-1.7A11.95 11.95 0 0012.01 24c6.64 0 12-5.36 12-11.99 0-3.2-1.27-6.2-3.49-8.53zM12 21.6c-1.18 0-2.32-.32-3.33-.93l-.24-.14-3.64 1.01 1-3.55-.14-.24A9.26 9.26 0 012.7 12.01 9.3 9.3 0 1112 21.6z"/></svg></a>
-  </div>
-
-  <!-- floating cart -->
   <div class="floating-row">
     <div class="badge" id="cartBadge" style="display:none">0</div>
-    <button class="fab" id="cartBtn" aria-label="Open Cart">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44C8.89 16.37 9.42 18 10.77 18h7.46v-2H10.77l.94-1.69L17.1 6H7V4zM7 20a2 2 0 100-4 2 2 0 000 4zm10 0a2 2 0 11.001-4.001A2 2 0 0117 20z"/></svg>
-    </button>
+    <button class="fab" id="cartBtn">🛒</button>
   </div>
 
-  <!-- cart drawer -->
-  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
-    <div class="cart-head">
-      <h3>Cart</h3>
-      <div>
-        <button id="closeCart" style="background:transparent;border:none;color:var(--muted);cursor:pointer">Close</button>
-      </div>
-    </div>
-    <div class="cart-items" id="cartItems"></div>
-    <div class="tot">
-      <div class="muted">Total</div>
-      <div id="cartTotal" style="font-weight:800">₹0</div>
-    </div>
-
-    <div style="margin-top:12px" class="order-form">
-      <input type="text" id="custName" placeholder="Your name" required />
-      <input type="tel" id="custPhone" placeholder="Phone number (WhatsApp preferred)" required />
+  <aside class="cart-drawer" id="cartDrawer">
+    <h3>Cart</h3>
+    <div id="cartItems"></div>
+    <p><strong>Total:</strong> ₹<span id="cartTotal">0</span></p>
+    <div class="order-form">
+      <input id="custName" placeholder="Your name" />
+      <input id="custPhone" placeholder="Phone number" />
       <button class="send" id="sendOrderBtn">Send Order</button>
-      <div style="font-size:12px;color:var(--muted);margin-top:8px">Orders are sent via EmailJS to the owner. No backend required.</div>
     </div>
   </aside>
 
-  <!-- EMAILJS (robust) -->
-<script src="https://cdn.emailjs.com/sdk/latest/email.min.js"></script>
-<script>
-  const EMAILJS_USER_ID    = 'L_F68QFk8bKdcc1-O';
-  const EMAILJS_SERVICE_ID = 'service_mm2ddz2';
-  const EMAILJS_TEMPLATE_ID= 'template_6f8jkdc';
-  const OWNER_EMAIL        = 'anshpatil71work@gmail.com';
+  <!-- EmailJS -->
+  <script src="https://cdn.emailjs.com/sdk/latest/email.min.js"></script>
+  <script>
+    const EMAILJS_USER_ID = 'L_F68QFk8bKdcc1-O';
+    const EMAILJS_SERVICE_ID = 'service_mm2ddz2';
+    const EMAILJS_TEMPLATE_ID = 'template_6f8jkdc';
 
-  function tryInitEmailJS() {
-    if (window.emailjs && typeof emailjs.init === 'function') {
-      try {
-        emailjs.init(EMAILJS_USER_ID);
-        console.log('[DUSK] EmailJS initialized ✔');
-        return true;
-      } catch (e) {
-        console.error('[DUSK] EmailJS init error', e);
-      }
-    }
-    return false;
-  }
+    emailjs.init(EMAILJS_USER_ID);
 
-  if (!tryInitEmailJS()) {
-    const poll = setInterval(()=>{
-      if (tryInitEmailJS()) clearInterval(poll);
-    }, 250);
-    setTimeout(()=> clearInterval(poll), 6000); // stop after 6s
-  }
-</script>
-    // ---------- PRODUCTS ----------
     const products = [
       {id:1,name:"Isabella's Islay Whisky",price:75000,img:'https://i.ibb.co/Z62HWr6y/Isabella-s-Islay-Whisky.jpg'},
-      {id:2,name:"D'Amalfi Limoncello Supreme",price:4200,img:'https://i.ibb.co/spVmGwtP/D-Amalfi-Limoncello-Supreme.jpg'},
-      {id:3,name:"Yamazaki",price:32000,img:'https://i.ibb.co/wNdmcQxH/Yamazaki.jpg'},
-      {id:4,name:"The Macallan 1926",price:620000,img:'https://i.ibb.co/3mmFDZyR/The-Macallan-1926.jpg'},
-      {id:5,name:"Dalmore 64 Trinitas",price:1800000,img:'https://i.ibb.co/4gmR0npX/Dalmore-64-Trinitas.jpg'},
-      {id:6,name:"Henri IV Dudognon Heritage Cognac",price:1500000,img:'https://i.ibb.co/PzxLjWtc/Henri-IV-Dudognon-Heritage-Cognac.jpg'},
-      {id:7,name:"The Macallan M Imperiale 6L",price:450000,img:'https://i.ibb.co/hJtKYtnN/The-Macallan-M-Imperiale-6-L.jpg'},
-      {id:8,name:"Ace of Spades Midas",price:1200000,img:'https://i.ibb.co/VpBQRkF0/Ace-of-Spades-Midas.jpg'},
-      {id:9,name:"Tequila Ley 925",price:65000,img:'https://i.ibb.co/fVnGXJbs/Tequila-Ley-925.jpg'},
-      {id:10,name:"Glenfiddich",price:15000,img:'https://i.ibb.co/GKrxnzG/Glenfiddich.webp'}
+      {id:2,name:"Yamazaki",price:32000,img:'https://i.ibb.co/wNdmcQxH/Yamazaki.jpg'},
+      {id:3,name:"Glenfiddich",price:15000,img:'https://i.ibb.co/GKrxnzG/Glenfiddich.webp'}
     ];
 
-    // ---------- RENDER CAROUSEL ----------
     const carousel = document.getElementById('carousel');
+    const cart = [];
+
+    function numberWithCommas(x){return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
+
     products.forEach(p=>{
-      const card = document.createElement('article');
+      const card=document.createElement('div');
       card.className='product';
-      card.innerHTML = `
-        <img src="${p.img}" alt="${p.name}" />
+      card.innerHTML=`
+        <img src="${p.img}">
         <div class="p-name">${p.name}</div>
         <div class="p-price">₹${numberWithCommas(p.price)}</div>
         <button class="add" data-id="${p.id}">Add to Cart</button>
@@ -209,161 +127,56 @@
       carousel.appendChild(card);
     });
 
-    // small auto-scroll (auto-slide) while allowing manual scroll
-    let autoScrollInterval = null;
-    function startAutoScroll(){
-      stopAutoScroll();
-      autoScrollInterval = setInterval(()=>{
-        if(!carousel) return;
-        const scrollAmount = 240; // px
-        if(carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10){
-          carousel.scrollTo({left:0,behavior:'smooth'});
-        } else {
-          carousel.scrollBy({left:scrollAmount,behavior:'smooth'});
-        }
-      },3500);
-    }
-    function stopAutoScroll(){ if(autoScrollInterval) clearInterval(autoScrollInterval); }
-    startAutoScroll();
-    carousel.addEventListener('mouseenter', stopAutoScroll);
-    carousel.addEventListener('mouseleave', startAutoScroll);
-
-    // ---------- CART LOGIC ----------
-    let cart = [];
-    const cartBtn = document.getElementById('cartBtn');
-    const cartBadge = document.getElementById('cartBadge');
-    const cartDrawer = document.getElementById('cartDrawer');
-    const cartItemsWrap = document.getElementById('cartItems');
-    const cartTotalEl = document.getElementById('cartTotal');
-
-    document.addEventListener('click', e=>{
-      if(e.target && e.target.matches('.add')){
-        const id = Number(e.target.getAttribute('data-id'));
-        addToCart(id);
+    document.addEventListener('click',e=>{
+      if(e.target.matches('.add')){
+        const id=+e.target.dataset.id;
+        const prod=products.find(p=>p.id===id);
+        const found=cart.find(i=>i.id===id);
+        if(found) found.qty++;
+        else cart.push({...prod,qty:1});
+        updateCart();
       }
     });
 
-    function addToCart(id){
-      const prod = products.find(p=>p.id===id);
-      if(!prod) return;
-      const found = cart.find(i=>i.id===id);
-      if(found) found.qty++;
-      else cart.push({id:prod.id,name:prod.name,price:prod.price,img:prod.img,qty:1});
-      updateCartUI();
-      showToast(`${prod.name} added`);
-    }
-
-    function updateCartUI(){
-      // badge
-      const totalQty = cart.reduce((s,i)=>s+i.qty,0);
-      if(totalQty>0){ cartBadge.style.display='inline-block'; cartBadge.textContent = totalQty; } else { cartBadge.style.display='none'; }
-
-      // items
-      cartItemsWrap.innerHTML = '';
-      cart.forEach(item=>{
-        const el = document.createElement('div');
-        el.className='cart-item';
-        el.innerHTML = `
-          <img src="${item.img}" alt="${item.name}" />
-          <div class="meta">
-            <div class="name">${item.name}</div>
-            <div class="qty">Qty: ${item.qty} · ₹${numberWithCommas(item.price)}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
-            <div style="font-weight:800">₹${numberWithCommas(item.price * item.qty)}</div>
-            <div style="display:flex;gap:6px">
-              <button class="remove" data-action="decrease" data-id="${item.id}">-</button>
-              <button class="remove" data-action="increase" data-id="${item.id}">+</button>
-              <button class="remove" data-action="remove" data-id="${item.id}">✕</button>
-            </div>
-          </div>
-        `;
-        cartItemsWrap.appendChild(el);
+    function updateCart(){
+      const wrap=document.getElementById('cartItems');
+      wrap.innerHTML='';
+      let total=0;
+      cart.forEach(i=>{
+        total+=i.price*i.qty;
+        wrap.innerHTML+=`<div class="cart-item"><img src="${i.img}"><div>${i.name}<br>Qty:${i.qty}</div></div>`;
       });
-
-      // totals
-      const total = cart.reduce((s,i)=>s + i.price * i.qty,0);
-      cartTotalEl.textContent = `₹${numberWithCommas(total)}`;
+      document.getElementById('cartTotal').innerText=numberWithCommas(total);
+      document.getElementById('cartBadge').style.display=cart.length?'block':'none';
+      document.getElementById('cartBadge').innerText=cart.reduce((s,i)=>s+i.qty,0);
     }
 
-    // cart item controls
-    cartItemsWrap.addEventListener('click', e=>{
-      const action = e.target.getAttribute('data-action');
-      const id = Number(e.target.getAttribute('data-id'));
-      if(!action || !id) return;
-      const idx = cart.findIndex(i=>i.id===id);
-      if(idx===-1) return;
-      if(action==='increase') cart[idx].qty++;
-      else if(action==='decrease'){ cart[idx].qty--; if(cart[idx].qty<=0) cart.splice(idx,1); }
-      else if(action==='remove') cart.splice(idx,1);
-      updateCartUI();
-    });
+    document.getElementById('cartBtn').onclick=()=>{
+      document.getElementById('cartDrawer').classList.toggle('open');
+    };
 
-    // open / close drawer
-    cartBtn.addEventListener('click', ()=>{ cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden','false'); });
-    document.getElementById('closeCart').addEventListener('click', ()=>{ cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden','true'); });
+    document.getElementById('sendOrderBtn').onclick=async()=>{
+      const name=document.getElementById('custName').value.trim();
+      const phone=document.getElementById('custPhone').value.trim();
+      if(!name||!phone||!cart.length) return alert('Fill details & add items');
 
-    // Shop Now scroll
-    document.getElementById('shopNow').addEventListener('click', ()=>{ document.getElementById('products').scrollIntoView({behavior:'smooth',block:'start'}); });
+      const items=cart.map(i=>`${i.name} x${i.qty}`).join('\n');
+      const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
 
-    // send order via EmailJS
-    document.getElementById('sendOrderBtn').addEventListener('click', async (e)=>{
-      e.preventDefault();
-      const name = document.getElementById('custName').value.trim();
-      const phone = document.getElementById('custPhone').value.trim();
-      if(!name || !phone){ alert('Please enter your name and phone number.'); return; }
-      if(cart.length===0){ alert('Your cart is empty. Add items before sending an order.'); return; }
-
-      // Build items html or plain text for template
-      const itemsText = cart.map(i=>`${i.name} — Qty: ${i.qty} — ₹${numberWithCommas(i.price * i.qty)}`).join('\n');
-      const itemsHtml = cart.map(i=>`<div style="margin-bottom:6px"><strong>${escapeHtml(i.name)}</strong><div>Qty: ${i.qty} × ₹${numberWithCommas(i.price)}</div></div>`).join('');
-
-      const templateParams = {
-        owner_email: OWNER_EMAIL, // configure your template to send to this address or set recipient in EmailJS
-        customer_name: name,
-        customer_phone: phone,
-        items_plain: itemsText,
-        items_html: itemsHtml,
-        total_amount: cart.reduce((s,i)=>s + i.price * i.qty,0)
-      };
-
-      // NOTE: The following will work only after you replace the EMAILJS settings above with your real IDs
-      if(!EMAILJS_USER_ID || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || EMAILJS_USER_ID.includes('YOUR')){
-        alert('Please configure your EmailJS IDs in the script (EMAILJS_USER_ID, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID).');
-        return;
+      try{
+        await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
+          customer_name:name,
+          customer_phone:phone,
+          items_plain:items,
+          total_amount:total
+        });
+        alert('Order sent successfully ✔');
+        cart.length=0; updateCart();
+      }catch(err){
+        console.error(err);
+        alert('Email failed. Check console.');
       }
-
-     try {
-  console.log('[DUSK] Sending order to EmailJS...', templateParams);
-  const resp = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-  console.log('[DUSK] EmailJS response:', resp);
-  showToast('Order sent — owner will contact you soon.');
-  // reset cart...
-  cart = []; updateCartUI();
-  document.getElementById('custName').value='';
-  document.getElementById('custPhone').value='';
-  cartDrawer.classList.remove('open');
-} catch (err) {
-  console.error('[DUSK] EmailJS send error:', err);
-  alert('Could not send order. See console for details.');
-}
-    });
-
-    // small helpers
-    function numberWithCommas(x){ return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-    function showToast(msg){
-      // simple toast
-      const t = document.createElement('div');
-      t.textContent = msg; t.style.position='fixed'; t.style.left='50%'; t.style.transform='translateX(-50%)'; t.style.bottom='90px'; t.style.background='rgba(0,0,0,0.7)'; t.style.padding='10px 14px'; t.style.borderRadius='8px'; t.style.zIndex=99999; document.body.appendChild(t);
-      setTimeout(()=>{ t.style.transition='opacity .3s'; t.style.opacity='0'; setTimeout(()=>t.remove(),300); },2000);
-    }
-    function escapeHtml(unsafe) { return unsafe.replace(/[&<"'`=\/]/g, function (s) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'}[s]); }); }
-
-    // initialize empty cart UI
-    updateCartUI();
-
-    // Accessibility: close drawer with ESC
-    document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden','true'); } });
+    };
   </script>
 </body>
 </html>
