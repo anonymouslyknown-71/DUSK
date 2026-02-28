@@ -153,20 +153,34 @@
     </div>
   </aside>
 
-  <!-- EmailJS SDK -->
-  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
-  <script>
-    // ---------- CONFIG ----------
-    // Replace these with your EmailJS details after creating an account at https://www.emailjs.com/
-    const EMAILJS_USER_ID = 'L_F68QFk8bKdcc1-O';
-    const EMAILJS_SERVICE_ID = 'service_mm2ddz2';
-    const EMAILJS_TEMPLATE_ID = 'template_6f8jkdc';
-    const OWNER_EMAIL = 'anshpatil71work@gmail.com';
+  <!-- EMAILJS (robust) -->
+<script src="https://cdn.emailjs.com/sdk/latest/email.min.js"></script>
+<script>
+  const EMAILJS_USER_ID    = 'L_F68QFk8bKdcc1-O';
+  const EMAILJS_SERVICE_ID = 'service_mm2ddz2';
+  const EMAILJS_TEMPLATE_ID= 'template_6f8jkdc';
+  const OWNER_EMAIL        = 'anshpatil71work@gmail.com';
 
-    if(window.emailjs){
-      emailjs.init(EMAILJS_USER_ID);
+  function tryInitEmailJS() {
+    if (window.emailjs && typeof emailjs.init === 'function') {
+      try {
+        emailjs.init(EMAILJS_USER_ID);
+        console.log('[DUSK] EmailJS initialized ✔');
+        return true;
+      } catch (e) {
+        console.error('[DUSK] EmailJS init error', e);
+      }
     }
+    return false;
+  }
 
+  if (!tryInitEmailJS()) {
+    const poll = setInterval(()=>{
+      if (tryInitEmailJS()) clearInterval(poll);
+    }, 250);
+    setTimeout(()=> clearInterval(poll), 6000); // stop after 6s
+  }
+</script>
     // ---------- PRODUCTS ----------
     const products = [
       {id:1,name:"Isabella's Islay Whisky",price:75000,img:'https://i.ibb.co/Z62HWr6y/Isabella-s-Islay-Whisky.jpg'},
